@@ -1,11 +1,19 @@
-git2version
-===============
+[![Build Status](https://github.com/smessmer/git2version/actions/workflows/ci.yml/badge.svg)](https://github.com/smessmer/git2version/actions/workflows/ci.yml)
+[![Latest Version](https://img.shields.io/crates/v/git2version.svg)](https://crates.io/crates/git2version)
+[![docs.rs](https://docs.rs/git2version/badge.svg)](https://docs.rs/git2version)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/smessmer/git2version/blob/master/LICENSE-MIT)
+[![License](https://img.shields.io/badge/license-APACHE-blue.svg)](https://github.com/smessmer/git2version/blob/master/LICENSE-APACHE)
+[![codecov](https://codecov.io/gh/smessmer/git2version/branch/master/graph/badge.svg?token=FRSBH7YYA9)](https://codecov.io/gh/smessmer/git2version)
+[![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)](https://github.com/rust-secure-code/safety-dance/)
 
-This crate provides a way to get the version of the package from git and incorporate it as a constant into your program.
+# git2version
+
+<!-- cargo-rdme start -->
+
+The [git2version](https://crates.io/crates/git2version) crate provides a way to get the version of the package from git and incorporate it as a constant into your program.
 
 
-Setup
---------------
+### Setup
 
 To use this, you need to setup a proxy-crate in your workspace.
 
@@ -47,8 +55,8 @@ fn main() {
 git2version::init_proxy_lib!();
 ```
 
-Usage
---------------
+
+### Usage
 
 The `init_proxy_lib!` macro in your proxy crate will generate something similar to the following:
 ```rust
@@ -59,7 +67,7 @@ pub const GITINFO: Option<git2version::GitInfo> =
         commit_id: "a9ebd080a7",
         modified: false,
     });
-``` 
+```
 This object can be `None` if the crate is not in a git repository or if there was an error looking up the version information from git.
 
 You can use this const from your main crate, for example like this:
@@ -69,8 +77,9 @@ fn main() {
 }
 ```
 
-Alternatives
---------------
+
+### Alternatives
+
 The [git-version](https://crates.io/crates/git-version) crate provides similar functionality.
 
 The main advantage of `git-version` over `git2version` is that it is much simpler to use. It uses a proc-macro based approach and doesn't require you to set up a proxy crate.
@@ -88,8 +97,8 @@ Another point of note is that both crates use a different mechanism for change d
   when the git repository data changes. This sounds hacky but might work. I have not tested how reliable or scalable that approach is.
 `cargo:rerun-if-changed` is the officially supported way to do this kind of change detection, so I would expect it to be more reliable, but it only works for `build.rs` scripts, not for proc macros.
 
-Why is the proxy crate required?
---------------------------------
+
+### Why is the proxy crate required?
 
 The crate needs to know the directory of your git repository to read version information.
 However, the `git2version` crate gets compiled independently from that and doesn't have access to your git repository.
@@ -100,4 +109,8 @@ your main crate is also in your repository. The reason is that the `build.rs` co
 needs to run **after every single file modification** because that could influence the `modified` tag of the git version information.
 If we put this into your main crate, then incremental compilations become basically useless because it needs to re-compile everything
 for every change. By putting it into a proxy crate, we only need to re-compile the code in the proxy crate and link your main crate
-against it. 
+against it.
+
+<!-- cargo-rdme end -->
+
+License: MIT OR Apache-2.0
