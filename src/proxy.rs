@@ -56,7 +56,7 @@ macro_rules! init_proxy_build {
 
         if let Some(repo) = repo {
             // Rerun the build script if any files changed. This is necessary to correctly update
-            // the `.dirty` flag of version numbers
+            // the `.modified` flag of version numbers
             println!(
                 "cargo:rerun-if-changed={repo_workspace_path}",
                 repo_workspace_path = repo.workdir().unwrap().display()
