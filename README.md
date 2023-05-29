@@ -1,7 +1,7 @@
 git2version
 ===============
 
-This crate provides a way to get the version of the package from git.
+This crate provides a way to get the version of the package from git and incorporate it as a constant into your program.
 
 
 Setup
