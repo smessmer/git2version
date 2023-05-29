@@ -1,8 +1,8 @@
 [![Build Status](https://github.com/smessmer/git2version/actions/workflows/ci.yml/badge.svg)](https://github.com/smessmer/git2version/actions/workflows/ci.yml)
 [![Latest Version](https://img.shields.io/crates/v/git2version.svg)](https://crates.io/crates/git2version)
 [![docs.rs](https://docs.rs/git2version/badge.svg)](https://docs.rs/git2version)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/smessmer/git2version/blob/master/LICENSE-MIT)
-[![License](https://img.shields.io/badge/license-APACHE-blue.svg)](https://github.com/smessmer/git2version/blob/master/LICENSE-APACHE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/smessmer/git2version/blob/main/LICENSE-MIT)
+[![License](https://img.shields.io/badge/license-APACHE-blue.svg)](https://github.com/smessmer/git2version/blob/main/LICENSE-APACHE)
 [![codecov](https://codecov.io/gh/smessmer/git2version/branch/main/graph/badge.svg?token=N4HYY2IVVV)](https://codecov.io/gh/smessmer/git2version)
 [![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)](https://github.com/rust-secure-code/safety-dance/)
 
