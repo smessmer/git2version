@@ -16,7 +16,7 @@
 //!
 //! 2. Add these files to make up the proxy crate:
 //!
-//! **version_proxy/Cargo.toml**:
+//! #### version_proxy/Cargo.toml:
 //! ```toml
 //! [package]
 //! name = "version_proxy"
@@ -31,14 +31,14 @@
 //! ```
 //! You can also lock the version of git2version to a specific version instead of using `*`.
 //!
-//! **version_proxy/build.rs**:
+//! #### version_proxy/build.rs:
 //! ```rust
 //! fn main() {
 //!     git2version::init_proxy_build!();
 //! }
 //! ```
 //!
-//! **version_proxy/src/lib.rs**:
+//! #### version_proxy/src/lib.rs:
 //! ```rust
 //! git2version::init_proxy_lib!();
 //! ```
