@@ -9,6 +9,19 @@ use git2version::{GitInfo, COMMIT_ID_SHORT_HASH_LENGTH};
 
 const FILENAME: &str = "some_file";
 
+fn create_repo(path: &Path) -> Repository {
+    let repo = Repository::init(path).unwrap();
+    repo.config()
+        .unwrap()
+        .set_str("user.name", "Test User")
+        .unwrap();
+    repo.config()
+        .unwrap()
+        .set_str("user.email", "test@example.com")
+        .unwrap();
+    repo
+}
+
 fn create_initial_commit(repo: &Repository) {
     create_change(repo);
     add_all_changes_to_index(repo);
@@ -91,14 +104,14 @@ fn no_git() {
 #[test]
 fn empty_git() {
     let project_dir = make_version_test_project();
-    Repository::init(&project_dir).unwrap();
+    create_repo(&project_dir.path());
     run_version_test_project(project_dir.path(), None);
 }
 
 #[test]
 fn with_initial_commit_notmodified() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_initial_commit(&repo);
     run_version_test_project(
         project_dir.path(),
@@ -114,7 +127,7 @@ fn with_initial_commit_notmodified() {
 #[test]
 fn with_initial_commit_modified() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_initial_commit(&repo);
     create_change(&repo);
     run_version_test_project(
@@ -131,7 +144,7 @@ fn with_initial_commit_modified() {
 #[test]
 fn with_initial_commit_modified_staged() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_initial_commit(&repo);
     create_change(&repo);
     add_all_changes_to_index(&repo);
@@ -149,7 +162,7 @@ fn with_initial_commit_modified_staged() {
 #[test]
 fn with_some_commits_but_no_tags_notmodified() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_but_no_tags(&repo);
     run_version_test_project(
         project_dir.path(),
@@ -165,7 +178,7 @@ fn with_some_commits_but_no_tags_notmodified() {
 #[test]
 fn with_some_commits_but_no_tags_modified() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_but_no_tags(&repo);
     create_change(&repo);
     run_version_test_project(
@@ -182,7 +195,7 @@ fn with_some_commits_but_no_tags_modified() {
 #[test]
 fn with_some_commits_but_no_tags_modified_staged() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_but_no_tags(&repo);
     create_change(&repo);
     add_all_changes_to_index(&repo);
@@ -200,7 +213,7 @@ fn with_some_commits_but_no_tags_modified_staged() {
 #[test]
 fn on_tag_notmodified() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_and_a_tag(&repo, "v1.2.3-alpha");
     run_version_test_project(
         project_dir.path(),
@@ -216,7 +229,7 @@ fn on_tag_notmodified() {
 #[test]
 fn on_tag_modified() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_and_a_tag(&repo, "v1.2.3-alpha");
     create_change(&repo);
     run_version_test_project(
@@ -233,7 +246,7 @@ fn on_tag_modified() {
 #[test]
 fn on_tag_modified_staged() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_and_a_tag(&repo, "v1.2.3-alpha");
     create_change(&repo);
     add_all_changes_to_index(&repo);
@@ -251,7 +264,7 @@ fn on_tag_modified_staged() {
 #[test]
 fn after_tag_notmodified() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_a_tag_and_some_more_commits(&repo, "v1.2.3-alpha");
     run_version_test_project(
         project_dir.path(),
@@ -267,7 +280,7 @@ fn after_tag_notmodified() {
 #[test]
 fn after_tag_modified() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_a_tag_and_some_more_commits(&repo, "v1.2.3-alpha");
     create_change(&repo);
     run_version_test_project(
@@ -284,7 +297,7 @@ fn after_tag_modified() {
 #[test]
 fn after_tag_modified_staged() {
     let project_dir = make_version_test_project();
-    let repo = Repository::init(&project_dir).unwrap();
+    let repo = create_repo(&project_dir.path());
     create_some_commits_a_tag_and_some_more_commits(&repo, "v1.2.3-alpha");
     create_change(&repo);
     add_all_changes_to_index(&repo);
