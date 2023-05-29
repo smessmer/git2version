@@ -7,6 +7,7 @@ description = "This crate provides a way to get the version of the package from 
 license = "MIT OR Apache-2.0"
 readme = "README.md"
 documentation = "https://docs.rs/git2version"
+rust-version = "1.65.0"
 # TODO other config values, metadata, keywords, etc.
 
 [dependencies]
