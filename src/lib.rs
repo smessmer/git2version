@@ -32,14 +32,14 @@
 //! You can also lock the version of git2version to a specific version instead of using `*`.
 //!
 //! #### version_proxy/build.rs:
-//! ```rust
+//! ```ignore
 //! fn main() {
 //!     git2version::init_proxy_build!();
 //! }
 //! ```
 //!
 //! #### version_proxy/src/lib.rs:
-//! ```rust
+//! ```ignore
 //! git2version::init_proxy_lib!();
 //! ```
 //!
@@ -59,7 +59,7 @@
 //! This object can be `None` if the crate is not in a git repository or if there was an error looking up the version information from git.
 //!
 //! You can use this const from your main crate, for example like this:
-//! ```rust
+//! ```ignore
 //! fn main() {
 //!     println!("Version from git: {:?}", version_proxy::GITINFO);
 //! }

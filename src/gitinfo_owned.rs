@@ -35,7 +35,7 @@ pub fn get_git_info(repo: &Repository) -> Result<GitInfoOwned, git2::Error> {
     // find closest ancestor tag, only looking at first parents (i.e. ignoring merge commits)
     // We do this without using `git describe` because the `git describe` format can be ambigious
     // if the version number contains dashes
-    let all_tags = git_helpers::all_tags(&repo)?;
+    let all_tags = git_helpers::all_tags(repo)?;
     let mut current_commit = head_commit;
     let mut commits_since_tag = 0;
     loop {

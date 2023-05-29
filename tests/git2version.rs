@@ -17,14 +17,14 @@ fn create_initial_commit(repo: &Repository) {
 
 fn create_change(repo: &Repository) -> String {
     let content = rand::random::<u64>().to_string();
-    std::fs::write(repo.workdir().unwrap().join(&FILENAME), &content).unwrap();
+    std::fs::write(repo.workdir().unwrap().join(FILENAME), &content).unwrap();
     content
 }
 
 fn add_all_changes_to_index(repo: &Repository) {
     let mut index = repo.index().unwrap();
     index
-        .add_all(&["*"], git2::IndexAddOption::DEFAULT, None)
+        .add_all(["*"], git2::IndexAddOption::DEFAULT, None)
         .unwrap();
     index.write().unwrap();
 }
@@ -58,28 +58,28 @@ fn create_tag(repo: &Repository, tag: &str) {
 }
 
 fn create_some_commits_but_no_tags(repo: &Repository) {
-    create_initial_commit(&repo);
-    create_change_and_commit(&repo);
-    create_change_and_commit(&repo);
+    create_initial_commit(repo);
+    create_change_and_commit(repo);
+    create_change_and_commit(repo);
 }
 
 fn create_some_commits_and_a_tag(repo: &Repository, tag: &str) {
-    create_initial_commit(&repo);
-    create_change_and_commit(&repo);
-    create_change_and_commit(&repo);
-    create_tag(&repo, &tag);
+    create_initial_commit(repo);
+    create_change_and_commit(repo);
+    create_change_and_commit(repo);
+    create_tag(repo, tag);
 }
 
 fn create_some_commits_a_tag_and_some_more_commits(repo: &Repository, tag: &str) {
-    create_initial_commit(&repo);
-    create_change_and_commit(&repo);
-    create_change_and_commit(&repo);
-    create_tag(&repo, &tag);
-    create_change_and_commit(&repo);
-    create_change_and_commit(&repo);
-    create_change_and_commit(&repo);
-    create_change_and_commit(&repo);
-    create_change_and_commit(&repo);
+    create_initial_commit(repo);
+    create_change_and_commit(repo);
+    create_change_and_commit(repo);
+    create_tag(repo, tag);
+    create_change_and_commit(repo);
+    create_change_and_commit(repo);
+    create_change_and_commit(repo);
+    create_change_and_commit(repo);
+    create_change_and_commit(repo);
 }
 
 #[test]
@@ -314,8 +314,7 @@ fn make_version_test_project() -> TempDir {
 
     create_file(
         &dir_path.join("Cargo.toml"),
-        &format!(
-            r#"
+        r#"
 [package]
 authors = ["Sebastian Messmer <messmer@cryfs.org>"]
 edition = "2021"
@@ -325,10 +324,9 @@ version = "0.1.0"
 [workspace]
 
 [dependencies]
-version-proxy = {{path = "./version-proxy"}}
+version-proxy = {path = "./version-proxy"}
 serde_json = "^1.0.96"
-        "#
-        ),
+        "#,
     );
 
     create_file(
@@ -360,22 +358,18 @@ git2version = {{path = "{path_to_git2version_crate}", features=["build"]}}
 
     create_file(
         &dir_path.join("version-proxy/build.rs"),
-        &format!(
-            r#"
+        r#"
 fn main() {{
     git2version::init_proxy_build!();
 }}
-        "#
-        ),
+        "#,
     );
 
     create_file(
         &dir_path.join("version-proxy/src/lib.rs"),
-        &format!(
-            r#"
+        r#"
             git2version::init_proxy_lib!();
-        "#
-        ),
+        "#,
     );
 
     dir
