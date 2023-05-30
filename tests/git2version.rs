@@ -330,8 +330,8 @@ fn make_version_test_project() -> TempDir {
         r#"
 [package]
 authors = ["Sebastian Messmer <messmer@cryfs.org>"]
-edition = "2021"
 name = "package-version-test"
+edition = "2021"
 version = "0.1.0"
 
 [workspace]
@@ -357,6 +357,7 @@ fn main() {
             r#"
 [package]
 name = "version-proxy"
+edition = "2021"
 # The version field here is ignored, no need to change it
 version = "0.0.0"
 
