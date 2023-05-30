@@ -32,7 +32,6 @@ version_proxy = {path = "./version_proxy"}
 ```toml
 [package]
 name = "version_proxy"
-edition = "2021"
 # The version field here is ignored, no need to change it
 version = "0.0.0"
 
