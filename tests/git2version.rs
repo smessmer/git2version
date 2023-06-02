@@ -9,6 +9,8 @@ use git2version::{GitInfo, COMMIT_ID_SHORT_HASH_LENGTH};
 
 const FILENAME: &str = "some_file";
 
+// TODO Use indoc! for multiline strings
+
 fn create_repo(path: &Path) -> Repository {
     let repo = Repository::init(path).unwrap();
     repo.config()
