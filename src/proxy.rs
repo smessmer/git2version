@@ -9,10 +9,11 @@ macro_rules! init_proxy_build {
 
         fn output_none() {
             println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_IS_KNOWN=false");
-            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_TAG=",);
-            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_COMMITS_SINCE_TAG=",);
-            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_COMMIT_ID=",);
-            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_MODIFIED=",);
+            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_HAS_TAG=false");
+            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_TAG=");
+            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_COMMITS_SINCE_TAG=");
+            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_COMMIT_ID=");
+            println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_MODIFIED=");
         }
 
         let repo = match $crate::git2::Repository::discover(cargo_manifest_dir) {
@@ -34,14 +35,29 @@ macro_rules! init_proxy_build {
 
         if let Some(repository_version) = repository_version {
             println!("cargo:rustc-env=PACKAGEVERSION_GITVERSION_IS_KNOWN=true");
-            println!(
-                "cargo:rustc-env=PACKAGEVERSION_GITVERSION_TAG={}",
-                repository_version.tag
-            );
-            println!(
-                "cargo:rustc-env=PACKAGEVERSION_GITVERSION_COMMITS_SINCE_TAG={}",
-                repository_version.commits_since_tag
-            );
+            if let Some(tag_info) = repository_version.tag_info {
+                println!(
+                    "cargo:rustc-env=PACKAGEVERSION_GITVERSION_HAS_TAG=true"
+                );
+                println!(
+                    "cargo:rustc-env=PACKAGEVERSION_GITVERSION_TAG={}",
+                    tag_info.tag
+                );
+                println!(
+                    "cargo:rustc-env=PACKAGEVERSION_GITVERSION_COMMITS_SINCE_TAG={}",
+                    tag_info.commits_since_tag
+                );
+            } else {
+                println!(
+                    "cargo:rustc-env=PACKAGEVERSION_GITVERSION_HAS_TAG=false",
+                );
+                println!(
+                    "cargo:rustc-env=PACKAGEVERSION_GITVERSION_TAG=",
+                );
+                println!(
+                    "cargo:rustc-env=PACKAGEVERSION_GITVERSION_COMMITS_SINCE_TAG=",
+                );
+            }
             println!(
                 "cargo:rustc-env=PACKAGEVERSION_GITVERSION_COMMIT_ID={}",
                 repository_version.commit_id
@@ -91,10 +107,20 @@ macro_rules! init_proxy_lib {
             $crate::konst::primitive::parse_bool(env!("PACKAGEVERSION_GITVERSION_IS_KNOWN"))
         ) {
             Some($crate::GitInfo {
-                tag: env!("PACKAGEVERSION_GITVERSION_TAG"),
-                commits_since_tag: $crate::konst::unwrap_ctx!($crate::konst::primitive::parse_u32(
-                    env!("PACKAGEVERSION_GITVERSION_COMMITS_SINCE_TAG")
-                )),
+                tag_info: if $crate::konst::unwrap_ctx!($crate::konst::primitive::parse_bool(env!(
+                    "PACKAGEVERSION_GITVERSION_HAS_TAG"
+                ))) {
+                    Some($crate::TagInfo {
+                        tag: env!("PACKAGEVERSION_GITVERSION_TAG"),
+                        commits_since_tag: $crate::konst::unwrap_ctx!(
+                            $crate::konst::primitive::parse_u32(env!(
+                                "PACKAGEVERSION_GITVERSION_COMMITS_SINCE_TAG"
+                            ))
+                        ),
+                    })
+                } else {
+                    None
+                },
                 commit_id: env!("PACKAGEVERSION_GITVERSION_COMMIT_ID"),
                 modified: $crate::konst::unwrap_ctx!($crate::konst::primitive::parse_bool(env!(
                     "PACKAGEVERSION_GITVERSION_MODIFIED"

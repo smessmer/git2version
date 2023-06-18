@@ -5,7 +5,7 @@ use std::path::Path;
 use std::process::Command;
 use tempdir::TempDir;
 
-use git2version::{GitInfo, COMMIT_ID_SHORT_HASH_LENGTH};
+use git2version::{GitInfo, TagInfo, COMMIT_ID_SHORT_HASH_LENGTH};
 
 const FILENAME: &str = "some_file";
 
@@ -118,8 +118,7 @@ fn with_initial_commit_notmodified() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "",
-            commits_since_tag: 1,
+            tag_info: None,
             commit_id: &head_commit_id(&repo),
             modified: false,
         }),
@@ -135,8 +134,7 @@ fn with_initial_commit_modified() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "",
-            commits_since_tag: 1,
+            tag_info: None,
             commit_id: &head_commit_id(&repo),
             modified: true,
         }),
@@ -153,8 +151,7 @@ fn with_initial_commit_modified_staged() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "",
-            commits_since_tag: 1,
+            tag_info: None,
             commit_id: &head_commit_id(&repo),
             modified: true,
         }),
@@ -169,8 +166,7 @@ fn with_some_commits_but_no_tags_notmodified() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "",
-            commits_since_tag: 3,
+            tag_info: None,
             commit_id: &head_commit_id(&repo),
             modified: false,
         }),
@@ -186,8 +182,7 @@ fn with_some_commits_but_no_tags_modified() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "",
-            commits_since_tag: 3,
+            tag_info: None,
             commit_id: &head_commit_id(&repo),
             modified: true,
         }),
@@ -204,8 +199,7 @@ fn with_some_commits_but_no_tags_modified_staged() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "",
-            commits_since_tag: 3,
+            tag_info: None,
             commit_id: &head_commit_id(&repo),
             modified: true,
         }),
@@ -220,8 +214,10 @@ fn on_tag_notmodified() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "v1.2.3-alpha",
-            commits_since_tag: 0,
+            tag_info: Some(TagInfo {
+                tag: "v1.2.3-alpha",
+                commits_since_tag: 0,
+            }),
             commit_id: &head_commit_id(&repo),
             modified: false,
         }),
@@ -237,8 +233,10 @@ fn on_tag_modified() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "v1.2.3-alpha",
-            commits_since_tag: 0,
+            tag_info: Some(TagInfo {
+                tag: "v1.2.3-alpha",
+                commits_since_tag: 0,
+            }),
             commit_id: &head_commit_id(&repo),
             modified: true,
         }),
@@ -255,8 +253,10 @@ fn on_tag_modified_staged() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "v1.2.3-alpha",
-            commits_since_tag: 0,
+            tag_info: Some(TagInfo {
+                tag: "v1.2.3-alpha",
+                commits_since_tag: 0,
+            }),
             commit_id: &head_commit_id(&repo),
             modified: true,
         }),
@@ -271,8 +271,10 @@ fn after_tag_notmodified() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "v1.2.3-alpha",
-            commits_since_tag: 5,
+            tag_info: Some(TagInfo {
+                tag: "v1.2.3-alpha",
+                commits_since_tag: 5,
+            }),
             commit_id: &head_commit_id(&repo),
             modified: false,
         }),
@@ -288,8 +290,10 @@ fn after_tag_modified() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "v1.2.3-alpha",
-            commits_since_tag: 5,
+            tag_info: Some(TagInfo {
+                tag: "v1.2.3-alpha",
+                commits_since_tag: 5,
+            }),
             commit_id: &head_commit_id(&repo),
             modified: true,
         }),
@@ -306,8 +310,10 @@ fn after_tag_modified_staged() {
     run_version_test_project(
         project_dir.path(),
         Some(GitInfo {
-            tag: "v1.2.3-alpha",
-            commits_since_tag: 5,
+            tag_info: Some(TagInfo {
+                tag: "v1.2.3-alpha",
+                commits_since_tag: 5,
+            }),
             commit_id: &head_commit_id(&repo),
             modified: true,
         }),

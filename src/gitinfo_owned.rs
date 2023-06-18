@@ -5,9 +5,14 @@ use super::git_helpers;
 use super::COMMIT_ID_SHORT_HASH_LENGTH;
 
 #[derive(Clone, PartialEq, Eq)]
-pub struct GitInfoOwned {
+pub struct TagInfoOwned {
     pub tag: String,
     pub commits_since_tag: u32,
+}
+
+#[derive(Clone, PartialEq, Eq)]
+pub struct GitInfoOwned {
+    pub tag_info: Option<TagInfoOwned>,
     pub commit_id: String,
     pub modified: bool,
 }
@@ -46,8 +51,10 @@ pub fn get_git_info(repo: &Repository) -> Result<GitInfoOwned, git2::Error> {
                 "tag list can't be empty, because the `all_tags` HashMap only contains entries that have at least one element",
             );
             return Ok(GitInfoOwned {
-                tag: tag.to_string(),
-                commits_since_tag,
+                tag_info: Some(TagInfoOwned {
+                    tag: tag.to_string(),
+                    commits_since_tag,
+                }),
                 commit_id: head_commit_id_str,
                 modified,
             });
@@ -57,8 +64,7 @@ pub fn get_git_info(repo: &Repository) -> Result<GitInfoOwned, git2::Error> {
             Err(_) => {
                 // We reached the root commit without finding a tag
                 return Ok(GitInfoOwned {
-                    tag: "".to_string(),
-                    commits_since_tag: commits_since_tag + 1,
+                    tag_info: None,
                     commit_id: head_commit_id_str,
                     modified,
                 });
