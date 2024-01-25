@@ -60,12 +60,14 @@ git2version::init_proxy_lib!();
 
 The `init_proxy_lib!` macro in your proxy crate will generate something similar to the following:
 ```rust
-pub const GITINFO: Option<git2version::GitInfo> =
-    Some(git2version::GitInfo {
-        tag: "v1.2.3-alpha",
+pub const GITINFO: Option<GitInfo> =
+    Some(GitInfo {
+      tag_info: Some(TagInfo {
+        tag:"v1.2.3-alpha",
         commits_since_tag: 5,
-        commit_id: "a9ebd080a7",
-        modified: false,
+      }),
+      commit_id: "a9ebd080a7",
+      modified: false,
     });
 ```
 This object can be `None` if the crate is not in a git repository or if there was an error looking up the version information from git.
