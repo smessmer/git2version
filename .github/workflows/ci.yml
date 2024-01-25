@@ -28,6 +28,31 @@ jobs:
         with:
           command: ${{ matrix.command }}
           args: ${{ matrix.features }} ${{ matrix.profile }}
+  test_min_versions:
+    name: build_test_minimal_versions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        command: ["build", "test"]
+        profile: ["", "--release"]
+        features: ["", "--no-default-features", "--all-features"]
+        # Nightly because -Z direct-minimal-versions is a nightly cargo featur
+        toolchain: ["nightly"]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          default: true
+      - uses: actions-rs/cargo@v1
+        with:
+          command: "update"
+          args: "-Z direct-minimal-versions"
+      - uses: actions-rs/cargo@v1
+        with:
+          command: ${{ matrix.command }}
+          args: ${{ matrix.features }} ${{ matrix.profile }}
   clippy_check:
     name: Linter (clippy)
     runs-on: ubuntu-latest
