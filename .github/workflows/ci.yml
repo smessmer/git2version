@@ -26,9 +26,9 @@ jobs:
           toolchain: ${{ matrix.toolchain }}
           default: true
       - run: |
-          for command in build test ; do
+          for features in "" "--no-default-features" "--all-features" ; do
             for profile in "" "--release" ; do
-              for features in "" "--no-default-features" "--all-features" ; do
+              for command in build test ; do
                 echo "Running: cargo $command $features $profile"
                 cargo $command $features $profile
               done
