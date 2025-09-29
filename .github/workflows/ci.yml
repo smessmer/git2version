@@ -10,10 +10,11 @@ env:
 jobs:
   test:
     name: build_test
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         command: ["build", "test"]
         profile: ["", "--release"]
         features: ["", "--no-default-features", "--all-features"]
