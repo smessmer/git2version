@@ -126,20 +126,15 @@ jobs:
         with:
           toolchain: nightly
           default: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --all-features --no-fail-fast
-        env:
-          # Setup taken from https://github.com/actions-rs/grcov/tree/d9881ad44979aa34f846a82abb764b2b8cfbd715
-          CARGO_INCREMENTAL: '0'
-          RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off'
-          RUSTDOCFLAGS: '-Zprofile -Ccodegen-units=1 -Cinline-threshold=0 -Clink-dead-code -Coverflow-checks=off'
+      - name: Install cargo-llvm-cov # See https://github.com/taiki-e/cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+      - name: Generate code coverage
+        run: cargo llvm-cov --all-features --workspace --lcov --output-path lcov.info
       - id: coverage
         uses: actions-rs/grcov@v0.1
       - uses: codecov/codecov-action@v3
         with:
           #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-          files: ${{ steps.coverage.outputs.report }}
+          files: lcov.info
           fail_ci_if_error: true
           verbose: true
