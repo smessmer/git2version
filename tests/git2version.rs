@@ -346,7 +346,7 @@ version = "0.1.0"
 
 [dependencies]
 version-proxy = {path = "./version-proxy"}
-serde_json = "=1.0.96"
+serde_json = "^1.0.96"
         "#,
     );
 
