@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 documentation = "https://docs.rs/git2version"
 repository = "https://github.com/smessmer/git2version"
-rust-version = "1.66.0"
+rust-version = "1.82.0"
 categories = ["development-tools", "development-tools::build-utils"]
 keywords = ["git", "version", "build"]
 
