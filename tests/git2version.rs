@@ -370,11 +370,12 @@ edition = "2021"
 version = "0.0.0"
 
 [dependencies]
-git2version = {{path = "{path_to_git2version_crate}"}}
+git2version = {{path = {path:?}}}
 
 [build-dependencies]
-git2version = {{path = "{path_to_git2version_crate}", features=["build"]}}
-        "#
+git2version = {{path = {path:?}, features=["build"]}}
+        "#,
+            path = path_to_git2version_crate,
         ),
     );
 
