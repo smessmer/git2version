@@ -28,11 +28,11 @@ jobs:
       - run: |
           for features in "" "--no-default-features" "--all-features" ; do
             for profile in "" "--release" ; do
-              for command in "build --all-targets" "test --jobs 1" ; do
-                echo "Running: cargo $command $features $profile"
-                cargo $command $features $profile
-                cargo clean
-              done
+              echo "Running: cargo build $features $profile --all-targets"
+              cargo build $features $profile --all-targets
+              echo "Running: cargo test $features $profile -- --test-threads=1"
+              cargo test $features $profile -- --test-threads=1
+              cargo clean
             done
           done
   test_min_versions:
@@ -56,11 +56,11 @@ jobs:
       - run: |
           for features in "" "--no-default-features" "--all-features" ; do
             for profile in "" "--release" ; do
-              for command in "build --all-targets" "test --jobs 1" ; do
-                echo "Running: cargo $command $features $profile"
-                cargo $command $features $profile
-                cargo clean
-              done
+              echo "Running: cargo build $features $profile --all-targets"
+              cargo build $features $profile --all-targets
+              echo "Running: cargo test $features $profile -- --test-threads=1"
+              cargo test $features $profile -- --test-threads=1
+              cargo clean
             done
           done
   clippy_check:
