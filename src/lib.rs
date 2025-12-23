@@ -123,7 +123,7 @@ mod git_helpers;
 #[cfg(feature = "build")]
 mod gitinfo_owned;
 #[cfg(feature = "build")]
-pub use gitinfo_owned::{get_git_info, GitInfoOwned};
+pub use gitinfo_owned::{GitInfoOwned, get_git_info};
 
 mod gitinfo;
 pub use gitinfo::{GitInfo, TagInfo};

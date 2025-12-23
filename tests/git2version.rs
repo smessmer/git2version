@@ -5,7 +5,7 @@ use std::path::Path;
 use std::process::Command;
 use tempdir::TempDir;
 
-use git2version::{GitInfo, TagInfo, COMMIT_ID_SHORT_HASH_LENGTH};
+use git2version::{COMMIT_ID_SHORT_HASH_LENGTH, GitInfo, TagInfo};
 
 const FILENAME: &str = "some_file";
 
