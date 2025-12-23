@@ -238,26 +238,27 @@ macro_rules! init_proxy_lib {
         ///     }
         /// }
         /// ```
-        pub const GITINFO: Option<$crate::GitInfo> = if $crate::konst::unwrap_ctx!(
+        pub const GITINFO: Option<$crate::GitInfo> = if $crate::konst::result::unwrap!(
             $crate::konst::primitive::parse_bool(env!("PACKAGEVERSION_GITVERSION_IS_KNOWN"))
         ) {
             Some($crate::GitInfo {
-                tag_info: if $crate::konst::unwrap_ctx!($crate::konst::primitive::parse_bool(env!(
+                tag_info: if $crate::konst::result::unwrap!($crate::konst::primitive::parse_bool(env!(
                     "PACKAGEVERSION_GITVERSION_HAS_TAG"
                 ))) {
                     Some($crate::TagInfo {
                         tag: env!("PACKAGEVERSION_GITVERSION_TAG"),
-                        commits_since_tag: $crate::konst::unwrap_ctx!(
-                            $crate::konst::primitive::parse_u32(env!(
+                        commits_since_tag: $crate::konst::result::unwrap!({
+                            let mut parser = $crate::konst::parsing::Parser::new(env!(
                                 "PACKAGEVERSION_GITVERSION_COMMITS_SINCE_TAG"
-                            ))
-                        ),
+                            ));
+                            parser.parse_u32()
+                        }),
                     })
                 } else {
                     None
                 },
                 commit_id: env!("PACKAGEVERSION_GITVERSION_COMMIT_ID"),
-                modified: $crate::konst::unwrap_ctx!($crate::konst::primitive::parse_bool(env!(
+                modified: $crate::konst::result::unwrap!($crate::konst::primitive::parse_bool(env!(
                     "PACKAGEVERSION_GITVERSION_MODIFIED"
                 ))),
             })
