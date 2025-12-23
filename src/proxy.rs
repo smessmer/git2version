@@ -242,9 +242,9 @@ macro_rules! init_proxy_lib {
             $crate::konst::primitive::parse_bool(env!("PACKAGEVERSION_GITVERSION_IS_KNOWN"))
         ) {
             Some($crate::GitInfo {
-                tag_info: if $crate::konst::result::unwrap!($crate::konst::primitive::parse_bool(env!(
-                    "PACKAGEVERSION_GITVERSION_HAS_TAG"
-                ))) {
+                tag_info: if $crate::konst::result::unwrap!($crate::konst::primitive::parse_bool(
+                    env!("PACKAGEVERSION_GITVERSION_HAS_TAG")
+                )) {
                     Some($crate::TagInfo {
                         tag: env!("PACKAGEVERSION_GITVERSION_TAG"),
                         commits_since_tag: $crate::konst::result::unwrap!({
@@ -258,9 +258,9 @@ macro_rules! init_proxy_lib {
                     None
                 },
                 commit_id: env!("PACKAGEVERSION_GITVERSION_COMMIT_ID"),
-                modified: $crate::konst::result::unwrap!($crate::konst::primitive::parse_bool(env!(
-                    "PACKAGEVERSION_GITVERSION_MODIFIED"
-                ))),
+                modified: $crate::konst::result::unwrap!($crate::konst::primitive::parse_bool(
+                    env!("PACKAGEVERSION_GITVERSION_MODIFIED")
+                )),
             })
         } else {
             None

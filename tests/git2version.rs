@@ -496,11 +496,7 @@ fn main() {{
         "#,
     );
 
-    let output = _run_process(
-        Command::new(env!("CARGO"))
-            .arg("run")
-            .current_dir(dir_path),
-    );
+    let output = _run_process(Command::new(env!("CARGO")).arg("run").current_dir(dir_path));
 
     let actual_version: Option<GitInfo> = serde_json::from_str(&output).unwrap();
     assert_eq!(

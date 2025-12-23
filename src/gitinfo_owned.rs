@@ -198,11 +198,7 @@ mod tests {
     }
 
     fn create_tag(repo: &Repository, tag_name: &str) {
-        let head_commit = repo
-            .head()
-            .unwrap()
-            .peel(git2::ObjectType::Commit)
-            .unwrap();
+        let head_commit = repo.head().unwrap().peel(git2::ObjectType::Commit).unwrap();
         repo.tag_lightweight(tag_name, &head_commit, true).unwrap();
     }
 
