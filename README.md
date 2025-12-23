@@ -97,7 +97,7 @@ Another point of note is that both crates use a different mechanism for change d
   and whenever files in the working copy change. The latter is important because it could cause a change to the `-modified` flag of the reported version.
 * `git-version` uses an `include_bytes!` mechanism to include bytes from your git repository data into the generated source code, which will cause cargo to detect it as a dependency and rerun the proc macro
   when the git repository data changes. This sounds hacky but might work. I have not tested how reliable or scalable that approach is.
-`cargo:rerun-if-changed` is the officially supported way to do this kind of change detection, so I would expect it to be more reliable, but it only works for `build.rs` scripts, not for proc macros.
+  `cargo:rerun-if-changed` is the officially supported way to do this kind of change detection, so I would expect it to be more reliable, but it only works for `build.rs` scripts, not for proc macros.
 
 
 ### Why is the proxy crate required?
