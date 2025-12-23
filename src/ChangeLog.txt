@@ -3,3 +3,4 @@ Version 0.5.0
 * Improve documentation
 * Add more tests
 * Update dependencies
+* Update to Rust edition 2024, MSRV 1.85
