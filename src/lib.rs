@@ -103,9 +103,19 @@
 //! against it.
 
 #![forbid(unsafe_code)]
-// TODO #![deny(missing_docs)]
+#![deny(missing_docs)]
 // TODO #![cfg_attr(not(feature = "std"), no_std)]
 
+/// The length of the shortened git commit hash used in [`GitInfo::commit_id`].
+///
+/// This is set to 10 characters, which provides sufficient uniqueness for most
+/// repositories while remaining human-readable. The git default of 7 characters
+/// can have collisions in larger repositories, so this crate uses a slightly longer value.
+///
+/// # Example
+///
+/// A full commit hash like `a9ebd080a7b1c76a8b3f3080a7b1c7c76a8b3f30` would be
+/// shortened to `a9ebd080a7` (10 characters).
 pub const COMMIT_ID_SHORT_HASH_LENGTH: usize = 10;
 
 #[cfg(feature = "build")]
